@@ -1,214 +1,72 @@
-<!-- PROJECT LOGO -->
-<br />
-<p align="center">
-  <a href="https://github.com/citi-onboarding/pta-boilerplate">
-    <img src="./assets/logoCITi.png" alt="Logo" width="180px">
-  </a>
+Shoe Store API - Desafio PTC CITi 26.1
+Visão Geral
+Este projeto consiste em uma API REST desenvolvida para a digitalização do controle de stock de uma loja de calçados. A solução substitui o antigo método manual por um sistema digital robusto, permitindo o gerenciamento completo (CRUD) de produtos e utilizadores.
 
-  <h3 align="center">PTC</h3>
+Tecnologias Utilizadas
+Node.js & TypeScript: Base do desenvolvimento para garantir segurança de tipos e escalabilidade.
 
-  <p align="center">
-  Esse boilerplate foi criado durante o processo seletivo de 2022 do CITi e atualizado em 202612 com o intuito de aproximar as pessoas aspirantes à realidade
-  dentro do CITi. O boilerplate será usado durante essa etapa do processo seletivo, a qual tem o objetivo de introduzir a subárea de dev aos aspirantes do CITi.
-    <br />
-    <a href="https://github.com/citi-onboarding/pta-boilerplate"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    ·
-    <a href="https://github.com/citi-onboarding/pta-boilerplate/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/citi-onboarding/pta-boilerplate/issues">Request Feature</a>
-  </p>
-</p>
+Express: Framework para a criação e gestão das rotas da API.
 
+Prisma ORM: Ferramenta para comunicação produtiva com o banco de dados.
 
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary><h2 style="display: inline-block">Tabela de Conteúdo</h2></summary>
-  <ol>
-    <li><a href="#about-boilerplate">About Boilerplate</a></li>
-    <li><a href="#server">Server</a></li></li>
-    <ul>
-        <li><a href="#how-to-install">How To Install</a></li></li>
-        <li><a href="#how-to-run">How To Run</a></li></li>
-    </ul>
-    <li><a href="#add-new-dependencies">Add New Dependencies</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
+PostgreSQL: Banco de dados relacional escolhido pela sua confiabilidade.
 
-<br/> 
+Docker: Utilizado para containerizar o banco de dados, garantindo que o ambiente seja idêntico em qualquer máquina.
 
-## About Boilerplate
-<br/>
+pnpm: Gerenciador de pacotes rápido e eficiente.
 
-  Esse boilerplate foi criado durante o processo seletivo de 2022 do CITi e ele tem o intuito de aproximar as pessoas aspirantes à realidade
-  dentro do CITi. O boilerplate será usado durante essa etapa do processo seletivo, a qual tem o objetivo de introduzir a subárea de desenvolvimento.
-  O template foi criado em um monorepo e está estruturado em servidor.
+Como Executar o Projeto
+Clone o repositório:
 
-<p align= "center">
-    <img src = "./assets/client-server.png" width="85%" margin-top="20px"/>
-</p>
+Bash
+git clone https://github.com/luishbmarques/DEV-DESAFIO.git
+cd server
+Configure o Ambiente:
+Crie um ficheiro .env na pasta server com as seguintes credenciais:
 
-O server tem uma estrutura base de código para a construção de uma API.
+Snippet de código
+DATABASE_URL="postgresql://postgres:docker@127.0.0.1:5432/pta?schema=public"
+Inicie o Banco de Dados (Docker):
 
+Bash
+docker compose up -d
+Rode as Migrations:
 
-<br/> 
+Bash
+pnpm prisma migrate dev
+Inicie o Servidor:
 
-## Server
+Bash
+pnpm dev
+Rotas da API
+Calçados (/calcados)
 
-<br/>
+POST /calcados: Cadastra um novo calçado.
 
-## How To Install
+GET /calcados: Lista todos os calçados em stock.
 
-<br/>
+PATCH /calcados/:id: Atualiza informações (preço, quantidade, etc) de um item específico.
 
-0. Certifique-se que o **node** e o **yarn** estejam devidamente instalados. 
-   ```bash
-   npm i -g yarn
-   ```
-   *note: em Windows, talvez você precise rodar esse comando para o pleno funcionamento do yarn:*
-   ```bash
-   Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted
-   ```
-1. Crie um novo Template:
-   No canto direito supeior, clique em Use this template, depois em criar um novo repositorio, para ter um repositorio novo no seu computador
-   
+DELETE /calcados/:id: Remove um calçado do sistema.
 
-2. Clone o repositório
+Utilizadores (/users)
 
-   ```sh
-   git clone URL_DO_REPOSITÓRIO
-   ```
+GET /users: Lista os utilizadores registados no sistema.
 
-3. Entre na pasta /server do repositório
+Decisões de Implementação
+Arquitetura de Dados: Optei por utilizar IDs do tipo Int com autoincremento para os calçados e UUID para os utilizadores, garantindo unicidade e seguindo as especificações do desafio.
 
-4. Abra a pasta /server no vscode
+Tipagem Estrita: Todos os campos de valores monetários e tamanhos foram configurados como Int/Float no Prisma para evitar erros de cálculo comuns em manipulação de strings.
 
-5. Vá em terminal e abra o novo terminal 
+Infraestrutura: A escolha pelo Docker com o mapeamento de porta 5432:5432 e o host 127.0.0.1 foi feita para evitar conflitos de rede em ambientes macOS e garantir que o banco estivesse sempre disponível para o Prisma.
 
-6. Com o terminal aberto, escreva essa sentença abaixo e dê enter
+Uso de Inteligência Artificial
+Seguindo os critérios de transparência do CITi, declaro que utilizei o Gemini como assistente técnico durante o desenvolvimento.
 
-   ```sh
-   yarn install
-   ```
+Debugging de Infraestrutura: A IA auxiliou na resolução de erros críticos de conectividade entre o Prisma e o Docker no ambiente macOS (erros P1001 e de binding de porta).
 
-   ou 
+Estruturação de Código: Utilizei a ferramenta para auxiliar na geração da lógica base do CalcadoController.ts e na configuração inicial do schema.prisma.
 
-   ```sh
-   npm install
-   ```
+Revisão Técnica: A IA atuou como revisora, ajudando a identificar erros de sintaxe no TypeScript e na configuração de módulos (@database).
 
-<br/> 
-
-## How To Run
-
-<br/>
-
-0. Certifique-se que o docker esteja devidamente instalado
-1. Com a pasta /server aberta no vscode, crie um novo arquivo e o nomeie de ".env"
-2. Dentro desse novo arquivo criado, coloque esse texto abaixo
-
-   ```javascript
-      # ###### GENERAL SETTINGS #######
-      PROJECT_NAME=pta
-      SERVER_PORT=3001 
-
-      # ###### DATABASE SETTINGS #######
-      DATABASE_TYPE=postgres
-      DATABASE_HOST=${PROJECT_NAME}-db
-      DATABASE_PORT=5432
-      DATABASE_USER=postgres
-      DATABASE_PASSWORD=docker
-      DATABASE_DB=${PROJECT_NAME}
-
-      DATABASE_URL=${DATABASE_TYPE}://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}
-   ```
-3. Abra um novo terminal no vscode
-4. Com o terminal aberto, escreva essa sentença abaixo e dê enter
-
-   ```sh
-   docker-compose up
-   ```
-
-   ou 
-
-   ```sh
-   docker compose up
-   ```
-
-5. Espere que o terminal esteja dessa maneira
-
-    <p align= "center"><img src= "./assets/server-status.png" width="85%"/>
-        
-    </p>
-
-6. Com este terminal rodando, abra outro terminal, ainda na pasta /server, e rode essa sentença abaixo
-
-   ```sh
-   yarn migration
-   ```
-
-   ou 
-
-   ```sh
-   npm run migration
-   ```
-
-   *OBS. 1: Ao aparecer o campo "Enter a name for the new migration:", digite uma frase rápida que indique o que foi feito (ex.: add model user). A migration é como se fosse o commit do banco de dados.*
-   
-   *OBS. 2: É necessário que esse comando seja rodado a cada vez que você modificar o arquivo `schema.prisma`*
-
-<br/> 
-
-
-<br/>
-
-1. Entre na pasta /client do repositório
-
-2. Abra a pasta /client no vscode
-
-3. Vá em terminal e abra o novo terminal 
-
-4. Com o terminal aberto, escreva essa sentença abaixo e dê enter
-
-   ```sh
-   yarn dev
-   ```
-
-   ou 
-
-   ```sh
-   npm run dev
-   ```
-
-3. Espere que o terminal esteja dessa maneira
-
-    <p align= "center"><img src= "./assets/client-status.png" width="85%"/>
-        
-    </p>
-
-<br/> 
-
-## Add New Dependencies
-
-<br/>
-
-Não instale novas dependências sem a autorização da pessoa gerente do projeto. Caso seja preciso, converse com gerentes e peça direcionamento 
-de como faz para adicionar. 
-
-
-<br/> 
-
-## Contact
-
-<br/>
-
-- [Alex Damascena](https://github.com/apfdamascena), líder de desenvolvimento em 2022.1 - apfd@cin.ufpe.br
-- [Tiago Lima](https://github.com/titi-lima), líder de desenvolvimento em 2023.2 - tmsl@cin.ufpe.br
-
-## 2022 Boilerplate
-
-<br/>
-
-- [apfdamascena/pta-boilerplate](https://github.com/apfdamascena/pta-boilerplate)
+Nota: Toda a lógica gerada foi revisada, testada e validada manualmente através do Thunder Client para garantir o funcionamento do CRUD.
