@@ -1,10 +1,16 @@
-import express from "express";
-import {  readAllUsers } from "./controllers/UserController";
+import { Router } from "express";
+import { 
+    createCalcado, 
+    readAllCalcados, 
+    updateCalcado, 
+    deleteCalcado 
+} from "./controllers/CalcadoController";
 
+const router = Router();
 
-const routes = express.Router();
+router.post("/calcados", createCalcado);
+router.get("/calcados", readAllCalcados);
+router.patch("/calcados/:id", updateCalcado);
+router.delete("/calcados/:id", deleteCalcado);
 
-routes.get("/users", readAllUsers);
-
-
-export default routes;
+export default router;

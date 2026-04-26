@@ -1,36 +1,13 @@
-version: "3"
+version: '3.8'
+
 services:
-  server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: boilerplate-server
-    container_name: ${PROJECT_NAME}-server
-    restart: unless-stopped
-    env_file: .env
-    ports:
-      - "${SERVER_PORT}:3001"
-    volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    depends_on:
-      - db
-
-  db:
-    image: postgres:16
-    container_name: ${PROJECT_NAME}-db
-    restart: unless-stopped
-    env_file: .env
+  database:
+    image: postgres:15
+    container_name: citi-db
+    restart: always
     environment:
-      - POSTGRES_USER=${DATABASE_USER}
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - POSTGRES_DB=${DATABASE_DB}
-      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=pta
     ports:
-      - "${DATABASE_PORT}:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:
-  node_modules:
+      - "5432:5432"
